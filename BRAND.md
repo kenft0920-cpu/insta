@@ -10,6 +10,7 @@
 | 表示名（プロフィール名） | `Masala Days ｜インド暮らし` |
 | @ハンドル（第1希望） | `masala.days` |
 | バックアップ順 | `masala.days.jp` → `masaladays_` → `masala_days.in` → `ourmasaladays` |
+| アイコン | `branding/masala-days-icon.png`（スパイス皿・サフラン背景 / 3C） |
 | アカウント種別 | 未定（将来自動投稿するならプロアカウントに切替） |
 | 言語 | 日本語＋英語（キャプション日英併記） |
 | ターゲット | 日本＋海外の両方 |
