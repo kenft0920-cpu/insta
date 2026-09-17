@@ -1,0 +1,53 @@
+name: Instagram Auto-post
+
+# 定期実行（毎時5分・UTC）＋ 手動実行。
+# 実際の投稿タイミングは posts/queue.json の publish_at で制御します
+# （このワークフローは「時刻が来た scheduled 投稿」を拾って投稿するだけ）。
+on:
+  schedule:
+    - cron: '5 * * * *'   # 毎時5分（UTC）。IST(+5:30)基準ではなくキューの時刻で判定
+  workflow_dispatch:       # 手動でも実行可
+    inputs:
+      dry_run:
+        description: 'DRY_RUN（trueなら投稿せず確認のみ）'
+        required: false
+        default: 'false'
+
+# ⚠️ スケジュール実行はデフォルトブランチ（main）にこのファイルがある場合のみ動きます。
+permissions:
+  contents: write
+
+jobs:
+  autopost:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Post due items to Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          # 画像の公開URLベース（この実行のコミットを参照）。※リポジトリが公開である必要あり
+          IMAGE_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}
+          DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
+          MAX_POSTS: '2'
+        run: node tools/post-to-instagram.mjs
+
+      - name: Commit queue status updates
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          if ! git diff --quiet -- posts/queue.json; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add posts/queue.json
+            git commit -m "chore: update Instagram post queue status [skip ci]"
+            git push
+          else
+            echo "キューに変更なし"
+          fi

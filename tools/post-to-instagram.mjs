@@ -1,0 +1,127 @@
+#!/usr/bin/env node
+/*
+ * Instagram 自動投稿スクリプト（Instagram Graph API / Content Publishing API）
+ * 外部ライブラリ不要（Node 18+ の組み込み fetch を使用）。
+ *
+ * 必要な環境変数:
+ *   IG_USER_ID       … Instagram ビジネスアカウントの ID（数字）
+ *   IG_ACCESS_TOKEN  … 長期アクセストークン
+ *   IMAGE_BASE_URL   … 画像の公開URLのベース
+ *                      例: https://raw.githubusercontent.com/kenft0920-cpu/insta/main
+ *                      （queue の image パスをこの後ろに連結して image_url にする）
+ * 任意:
+ *   DRY_RUN=1        … 実際には投稿せず、何をするかだけ表示（テスト用）
+ *   MAX_POSTS=1      … 1回の実行で投稿する最大件数（既定 1）
+ *   QUEUE_FILE       … キューのパス（既定 posts/queue.json）
+ *   GRAPH_VERSION    … Graph API バージョン（既定 v21.0）
+ *
+ * 使い方:
+ *   DRY_RUN=1 node tools/post-to-instagram.mjs      # 動作確認
+ *   node tools/post-to-instagram.mjs                # 本番投稿
+ */
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+
+const {
+  IG_USER_ID,
+  IG_ACCESS_TOKEN,
+  IMAGE_BASE_URL,
+  DRY_RUN,
+  MAX_POSTS = '1',
+  QUEUE_FILE = 'posts/queue.json',
+  GRAPH_VERSION = 'v21.0',
+} = process.env;
+
+const dryRun = DRY_RUN === '1' || DRY_RUN === 'true';
+const maxPosts = Number(MAX_POSTS) || 1;
+const API = `https://graph.facebook.com/${GRAPH_VERSION}`;
+
+function fail(msg) {
+  console.error(`✗ ${msg}`);
+  process.exit(1);
+}
+
+if (!dryRun) {
+  if (!IG_USER_ID) fail('環境変数 IG_USER_ID が未設定です');
+  if (!IG_ACCESS_TOKEN) fail('環境変数 IG_ACCESS_TOKEN が未設定です');
+}
+if (!IMAGE_BASE_URL) fail('環境変数 IMAGE_BASE_URL が未設定です（画像の公開URLベース）');
+
+const queuePath = path.resolve(QUEUE_FILE);
+const queue = JSON.parse(readFileSync(queuePath, 'utf8'));
+const now = Date.now();
+
+// 投稿対象: status === 'scheduled' かつ publish_at <= now
+const due = (queue.posts || [])
+  .filter((p) => p.status === 'scheduled' && new Date(p.publish_at).getTime() <= now)
+  .sort((a, b) => new Date(a.publish_at) - new Date(b.publish_at))
+  .slice(0, maxPosts);
+
+if (due.length === 0) {
+  console.log('投稿対象なし（scheduled かつ時刻到来のものがありません）。');
+  process.exit(0);
+}
+
+async function graphPost(url, params) {
+  const body = new URLSearchParams(params);
+  const res = await fetch(url, { method: 'POST', body });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || json.error) {
+    throw new Error(`Graph API エラー: ${res.status} ${JSON.stringify(json.error || json)}`);
+  }
+  return json;
+}
+
+function imageUrlFor(p) {
+  const base = IMAGE_BASE_URL.replace(/\/$/, '');
+  return `${base}/${p.image.replace(/^\//, '')}`;
+}
+
+let posted = 0;
+for (const p of due) {
+  const caption = p.caption_file
+    ? readFileSync(path.resolve(p.caption_file), 'utf8').trim()
+    : (p.caption || '');
+  const image_url = imageUrlFor(p);
+
+  console.log(`\n── ${p.id} ──`);
+  console.log(`  image_url: ${image_url}`);
+  console.log(`  caption : ${caption.split('\n')[0]} …(${caption.length}文字)`);
+
+  if (dryRun) {
+    console.log('  [DRY_RUN] 実際の投稿はスキップしました。');
+    continue;
+  }
+
+  try {
+    // 1) メディアコンテナ作成
+    const container = await graphPost(`${API}/${IG_USER_ID}/media`, {
+      image_url,
+      caption,
+      access_token: IG_ACCESS_TOKEN,
+    });
+    console.log(`  container: ${container.id}`);
+
+    // 2) 公開
+    const published = await graphPost(`${API}/${IG_USER_ID}/media_publish`, {
+      creation_id: container.id,
+      access_token: IG_ACCESS_TOKEN,
+    });
+    console.log(`  ✓ 投稿完了 media_id=${published.id}`);
+
+    p.status = 'posted';
+    p.posted_at = new Date().toISOString();
+    p.media_id = published.id;
+    posted++;
+  } catch (e) {
+    console.error(`  ✗ 失敗: ${e.message}`);
+    p.status = 'error';
+    p.error = e.message;
+  }
+}
+
+// キューを書き戻す（status 更新を保存）
+if (!dryRun) {
+  writeFileSync(queuePath, JSON.stringify(queue, null, 2) + '\n');
+  console.log(`\nキュー更新: ${QUEUE_FILE}（投稿 ${posted} 件）`);
+}

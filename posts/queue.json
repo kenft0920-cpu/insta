@@ -1,0 +1,12 @@
+{
+  "_comment": "投稿キュー。status が 'scheduled' で publish_at が現在時刻を過ぎたものを自動投稿します。投稿後に status は 'posted' に更新されます。時刻はISO8601（+05:30 = インド標準時 IST）。",
+  "posts": [
+    {
+      "id": "2026-09-17_temple",
+      "image": "photos/edited/2026-09-17_temple_4x5.jpg",
+      "caption_file": "posts/captions/2026-09-17_temple.txt",
+      "publish_at": "2099-01-01T12:00:00+05:30",
+      "status": "draft"
+    }
+  ]
+}
