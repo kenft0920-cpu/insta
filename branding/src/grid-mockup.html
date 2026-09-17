@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0;background:#fff;font-family:'DejaVu Sans','Liberation Sans',sans-serif}
+  .wrap{width:1080px;box-sizing:border-box}
+  /* profile header mock */
+  .head{display:flex;align-items:center;gap:34px;padding:36px 40px 22px}
+  .avatar{width:150px;height:150px;border-radius:50%;background-size:cover;background-position:center;
+          border:3px solid #eee;flex:0 0 auto}
+  .meta{flex:1}
+  .name{font-size:40px;font-weight:800;color:#1a1a1a}
+  .handle{font-size:26px;color:#8a8a8a;margin-top:2px}
+  .bio{font-size:24px;color:#333;margin-top:12px;line-height:1.45}
+  .stats{display:flex;gap:40px;margin-top:10px}
+  .stat b{font-size:28px}.stat span{font-size:22px;color:#8a8a8a;margin-left:6px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 6px 6px}
+  .tile{position:relative;aspect-ratio:1/1;background-size:cover;background-position:center;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
+  .emoji{font-size:88px;line-height:1}
+  .tlabel{font-size:30px;font-weight:800;margin-top:10px;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.25)}
+  .tnum{position:absolute;top:10px;left:14px;font-size:24px;font-weight:800;opacity:.85}
+  .todo{position:absolute;bottom:12px;font-size:19px;font-weight:700;opacity:.9;
+        background:rgba(0,0,0,.18);padding:3px 12px;border-radius:20px}
+</style></head><body>
+<div class="wrap">
+  <div class="head">
+    <div class="avatar" style="background-image:url('../masala-days-icon.png')"></div>
+    <div class="meta">
+      <div class="name">Masala Days ｜インド暮らし</div>
+      <div class="handle">@masala.days</div>
+      <div class="stats">
+        <div class="stat"><b>9</b><span>投稿</span></div>
+        <div class="stat"><b>—</b><span>フォロワー</span></div>
+        <div class="stat"><b>—</b><span>フォロー中</span></div>
+      </div>
+      <div class="bio">🇮🇳 インド駐在中のリアルな毎日 / Life in India<br>🛕 街・ごはん・文化・仕事の裏側<br>📷 色とりどりの"マサラな日常"</div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="tile" style="background-image:url('../../photos/edited/2026-09-17_temple_1x1.jpg')"><div class="tnum">1</div></div>
+    <div class="tile" style="background:#C0392B"><div class="tnum">2</div><div class="emoji">🍛</div><div class="tlabel">ローカルグルメ</div><div class="todo">撮影予定</div></div>
+    <div class="tile" style="background:#14524E"><div class="tnum">3</div><div class="emoji">🛺</div><div class="tlabel">街・日常</div><div class="todo">撮影予定</div></div>
+    <div class="tile" style="background:#EE9A1E"><div class="tnum">4</div><div class="emoji">🏭</div><div class="tlabel">仕事の裏側</div><div class="todo">撮影予定</div></div>
+    <div class="tile" style="background:#6C3483"><div class="tnum">5</div><div class="emoji">🌸</div><div class="tlabel">色のマーケット</div><div class="todo">撮影予定</div></div>
+    <div class="tile" style="background:#8E5A2A"><div class="tnum">6</div><div class="emoji">☕</div><div class="tlabel">チャイと日常</div><div class="todo">撮影予定</div></div>
+    <div class="tile" style="background:#1E5F74"><div class="tnum">7</div><div class="emoji">🏛️</div><div class="tlabel">歴史・建築</div><div class="todo">撮影予定</div></div>
+    <div class="tile" style="background:#E8622C"><div class="tnum">8</div><div class="emoji">🙂</div><div class="tlabel">人・暮らし</div><div class="todo">撮影予定</div></div>
+    <div class="tile" style="background:#F2A81D"><div class="tnum">9</div><div class="emoji">🌇</div><div class="tlabel">風景・夕暮れ</div><div class="todo">撮影予定</div></div>
+  </div>
+</div>
+</body></html>
