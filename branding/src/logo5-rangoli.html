@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0}
+  text{font-family:'DejaVu Sans','Liberation Sans',sans-serif}
+</style></head><body>
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1080" fill="#2C1F4A"/>
+  <g id="rangoli"></g>
+  <!-- center medallion -->
+  <circle cx="540" cy="540" r="150" fill="#FBF1DD"/>
+  <circle cx="540" cy="540" r="150" fill="none" stroke="#F2A81D" stroke-width="8"/>
+  <text x="540" y="520" text-anchor="middle" font-size="92" font-weight="800" fill="#7A1F1A" letter-spacing="-4">md</text>
+  <text x="540" y="600" text-anchor="middle" font-size="34" font-weight="700" fill="#C0392B" letter-spacing="8">MASALA DAYS</text>
+</svg>
+<script>
+  const svgns='http://www.w3.org/2000/svg';
+  const g=document.getElementById('rangoli');
+  const cx=540, cy=540;
+  const rings=[
+    {r:470, n:24, pr:14, color:'#E8622C'},
+    {r:410, n:24, pr:20, color:'#F2A81D', rot:0.13},
+    {r:340, n:20, pr:26, color:'#4C7A34'},
+    {r:260, n:16, pr:30, color:'#1E5F74', rot:0.19},
+  ];
+  for(const R of rings){
+    for(let i=0;i<R.n;i++){
+      const a=(i/R.n)*Math.PI*2 + (R.rot||0);
+      const x=cx+Math.cos(a)*R.r, y=cy+Math.sin(a)*R.r;
+      // petal = diamond
+      const d=document.createElementNS(svgns,'path');
+      const s=R.pr;
+      d.setAttribute('d',`M${x} ${y-s} L${x+s} ${y} L${x} ${y+s} L${x-s} ${y} Z`);
+      d.setAttribute('fill',R.color);
+      d.setAttribute('opacity','0.95');
+      g.appendChild(d);
+    }
+  }
+</script>
+</body></html>

@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0}
+  text{font-family:'DejaVu Sans','Liberation Sans',sans-serif}
+</style></head><body>
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1080" fill="#EE7A21"/>
+  <!-- passport-stamp circles -->
+  <circle cx="540" cy="540" r="470" fill="none" stroke="#FBF1DD" stroke-width="8"/>
+  <circle cx="540" cy="540" r="360" fill="none" stroke="#FBF1DD" stroke-width="4" stroke-dasharray="4 14"/>
+  <!-- curved title text top and bottom -->
+  <defs>
+    <path id="top" d="M 130 540 A 410 410 0 0 1 950 540"/>
+    <path id="bot" d="M 160 540 A 380 380 0 0 0 920 540"/>
+  </defs>
+  <text font-size="86" font-weight="800" fill="#FBF1DD" letter-spacing="14">
+    <textPath href="#top" startOffset="50%" text-anchor="middle">MASALA DAYS</textPath>
+  </text>
+  <text font-size="46" font-weight="700" fill="#FBF1DD" letter-spacing="16">
+    <textPath href="#bot" startOffset="50%" text-anchor="middle">EVERYDAY LIFE IN INDIA</textPath>
+  </text>
+  <!-- center: simple temple dome motif -->
+  <g fill="#FBF1DD">
+    <path d="M540 350 l35 55 h-70 z"/>
+    <rect x="470" y="405" width="140" height="30" rx="6"/>
+    <path d="M470 435 q70 -70 140 0 v150 h-140 z"/>
+    <rect x="455" y="585" width="170" height="26" rx="6"/>
+    <rect x="510" y="500" width="60" height="85" rx="10" fill="#EE7A21"/>
+  </g>
+  <text x="540" y="700" text-anchor="middle" font-size="40" font-weight="700" fill="#FBF1DD" letter-spacing="6">EST. 2026</text>
+</svg>
+</body></html>

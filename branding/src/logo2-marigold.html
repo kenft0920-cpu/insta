@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0}
+  text{font-family:'DejaVu Sans','Liberation Sans',sans-serif}
+</style></head><body>
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1080" fill="#14524E"/>
+  <!-- marigold flower: layered petals -->
+  <g id="flower"></g>
+  <!-- center disc -->
+  <circle cx="540" cy="470" r="120" fill="#7A1F1A"/>
+  <text x="540" y="512" text-anchor="middle" font-size="130" font-weight="800" fill="#F4B22B" letter-spacing="-8">md</text>
+  <!-- wordmark -->
+  <text x="540" y="820" text-anchor="middle" font-size="96" font-weight="800" fill="#F6E7C6" letter-spacing="2">Masala</text>
+  <text x="540" y="910" text-anchor="middle" font-size="60" font-weight="600" fill="#EE9A2B" letter-spacing="20">DAYS</text>
+</svg>
+<script>
+  const svgns='http://www.w3.org/2000/svg';
+  const g=document.getElementById('flower');
+  const cx=540, cy=470;
+  const layers=[
+    {r:250, pr:70, n:16, color:'#E8622C'},
+    {r:210, pr:62, n:16, color:'#EE7A21', rot:0.196},
+    {r:170, pr:54, n:14, color:'#F2A81D'},
+  ];
+  for(const L of layers){
+    for(let i=0;i<L.n;i++){
+      const a=(i/L.n)*Math.PI*2 + (L.rot||0);
+      const x=cx+Math.cos(a)*L.r;
+      const y=cy+Math.sin(a)*L.r;
+      const p=document.createElementNS(svgns,'circle');
+      p.setAttribute('cx',x); p.setAttribute('cy',y); p.setAttribute('r',L.pr);
+      p.setAttribute('fill',L.color);
+      g.appendChild(p);
+    }
+  }
+</script>
+</body></html>

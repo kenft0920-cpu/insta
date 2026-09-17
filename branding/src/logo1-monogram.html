@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0}
+  svg{display:block}
+  text{font-family:'DejaVu Sans','Liberation Sans',sans-serif}
+</style></head><body>
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#F4B22B"/>
+      <stop offset="55%" stop-color="#EE7A21"/>
+      <stop offset="100%" stop-color="#C0392B"/>
+    </radialGradient>
+  </defs>
+  <!-- full-bleed background so circle crop looks good -->
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <!-- inner ring -->
+  <circle cx="540" cy="540" r="430" fill="none" stroke="#FBF1DD" stroke-width="10" opacity="0.9"/>
+  <!-- spice dots around ring -->
+  <g fill="#FBF1DD">
+    <!-- generated dots -->
+  </g>
+  <g id="dots"></g>
+  <!-- Monogram MD -->
+  <text x="540" y="600" text-anchor="middle" font-size="440" font-weight="800"
+        fill="#FBF1DD" letter-spacing="-20">MD</text>
+  <!-- top arc label -->
+  <text x="540" y="250" text-anchor="middle" font-size="62" font-weight="700"
+        fill="#FBF1DD" letter-spacing="10">MASALA</text>
+  <!-- bottom label -->
+  <text x="540" y="880" text-anchor="middle" font-size="62" font-weight="700"
+        fill="#FBF1DD" letter-spacing="18">DAYS</text>
+</svg>
+<script>
+  // scatter small spice dots evenly around the ring
+  const g = document.getElementById('dots');
+  const cx=540, cy=540, r=430, n=36;
+  const colors=['#FBF1DD'];
+  for(let i=0;i<n;i++){
+    const a = (i/n)*Math.PI*2 - Math.PI/2;
+    const x = cx + Math.cos(a)*r;
+    const y = cy + Math.sin(a)*r;
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r', i%3===0?7:4);
+    c.setAttribute('fill','#FBF1DD'); c.setAttribute('opacity','0.85');
+    g.appendChild(c);
+  }
+</script>
+</body></html>
