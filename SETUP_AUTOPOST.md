@@ -32,27 +32,37 @@ tools/post-to-instagram.mjs
 
 1. https://developers.facebook.com/ にログイン → **マイアプリ → アプリを作成**
 2. タイプは「**ビジネス**」を選択
-3. アプリに **Instagram Graph API** 製品を追加
+3. アプリに Instagram連携を追加（ユースケース例：**「Instagramでメッセージとコンテンツを管理」**）
 
-## C. アクセストークンとIDを取得
+> 📌 接続方式は2種類あります。本手順は **Instagramログイン方式（graph.instagram.com）** を前提にしています
+> （新しく・簡単。スクリプト/ワークフローの既定もこちら＝`GRAPH_BASE=https://graph.instagram.com`）。
+> 従来のFacebookログイン方式を使う場合は `GRAPH_BASE=https://graph.facebook.com` に変更してください。
 
-1. **グラフAPIエクスプローラ**（Tools → Graph API Explorer）を開く
-2. 権限（アクセス許可）に以下を付与してトークン生成:
-   - `instagram_basic`
-   - `instagram_content_publish`
-   - `pages_show_list`
-   - `pages_read_engagement`
-   - `business_management`
-3. **IG_USER_ID の取得**（インスタのビジネスアカウントID）:
-   - `GET me/accounts` → 対象ページの `id` を確認
-   - `GET {page-id}?fields=instagram_business_account` → 返る `id` が **IG_USER_ID**
-4. **長期トークンに変換**（短期は数時間で切れるため）:
-   - 「アクセストークンツール」で長期化、または
-     `GET oauth/access_token?grant_type=fb_exchange_token&...` で60日トークンを取得
-   - ※長期トークンでも約60日で期限切れ → 定期的な更新が必要（下の運用メモ参照）
+## C. アクセストークンとIDを取得（Instagramログイン方式）
 
-> メモ: 初期はアプリが「開発モード」でも、自分のアカウントには投稿可能。
-> 継続運用するなら後で「本番モード」＋ビジネス認証をしておくと安定します。
+1. アプリのダッシュボードで **ユースケース**（例「Instagramでメッセージとコンテンツを管理」）を開く
+2. **「Instagramアカウントを追加/ビジネスログイン設定」** で **@masala.days を接続**
+   - 権限に **`instagram_business_basic`** と **`instagram_business_content_publish`** が含まれることを確認
+3. **「アクセストークンを生成」** でトークンを発行 → これが **IG_ACCESS_TOKEN**
+4. **IG_USER_ID** は同じ画面（接続済みアカウント欄）に表示される **InstagramユーザーID（数字）**
+   - もしくは `GET https://graph.instagram.com/v21.0/me?fields=user_id,username&access_token=...` で確認
+5. トークンの寿命:
+   - ここで出るのは短期トークンのことがある → **長期トークン（約60日）** に変換して使う
+   - 変換: `GET https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=<APIシークレット>&access_token=<短期トークン>`
+   - ※約60日で失効 → 期限前に更新（`grant_type=ig_refresh_token` で延長可）
+
+> メモ: 開発モードのままでも、アプリに紐づく自分のアカウントには投稿可能。
+> 継続運用するなら後で本番公開＋ビジネス認証をしておくと安定します。
+
+<details><summary>（参考）Facebookログイン方式でやる場合のC</summary>
+
+1. グラフAPIエクスプローラで権限 `instagram_basic` `instagram_content_publish`
+   `pages_show_list` `pages_read_engagement` `business_management` を付与
+2. `GET me/accounts` → ページの `id` → `GET {page-id}?fields=instagram_business_account`
+   の戻り値が **IG_USER_ID**
+3. 長期トークンに変換（`grant_type=fb_exchange_token`）
+4. `GRAPH_BASE=https://graph.facebook.com` に設定
+</details>
 
 ## D. GitHubに秘密情報を登録
 

@@ -30,11 +30,15 @@ const {
   MAX_POSTS = '1',
   QUEUE_FILE = 'posts/queue.json',
   GRAPH_VERSION = 'v21.0',
+  // 接続先ホスト:
+  //  - Instagramログイン方式（新・簡単）: https://graph.instagram.com
+  //  - Facebookログイン方式（従来・ページ経由）: https://graph.facebook.com
+  GRAPH_BASE = 'https://graph.instagram.com',
 } = process.env;
 
 const dryRun = DRY_RUN === '1' || DRY_RUN === 'true';
 const maxPosts = Number(MAX_POSTS) || 1;
-const API = `https://graph.facebook.com/${GRAPH_VERSION}`;
+const API = `${GRAPH_BASE.replace(/\/$/, '')}/${GRAPH_VERSION}`;
 
 function fail(msg) {
   console.error(`✗ ${msg}`);

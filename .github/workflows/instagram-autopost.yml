@@ -33,6 +33,8 @@ jobs:
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          # 接続先: Instagramログイン方式=graph.instagram.com / Facebookログイン方式=graph.facebook.com
+          GRAPH_BASE: https://graph.instagram.com
           # 画像の公開URLベース（この実行のコミットを参照）。※リポジトリが公開である必要あり
           IMAGE_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}
           DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
