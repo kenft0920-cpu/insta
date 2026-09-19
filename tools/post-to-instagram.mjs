@@ -37,6 +37,7 @@ const {
 } = process.env;
 
 const dryRun = DRY_RUN === '1' || DRY_RUN === 'true';
+const verify = process.env.VERIFY === '1' || process.env.VERIFY === 'true';
 const maxPosts = Number(MAX_POSTS) || 1;
 const API = `${GRAPH_BASE.replace(/\/$/, '')}/${GRAPH_VERSION}`;
 
@@ -54,6 +55,50 @@ if (!IMAGE_BASE_URL) fail('環境変数 IMAGE_BASE_URL が未設定です（画�
 const queuePath = path.resolve(QUEUE_FILE);
 const queue = JSON.parse(readFileSync(queuePath, 'utf8'));
 const now = Date.now();
+
+function imageUrlForEarly(p) {
+  const base = IMAGE_BASE_URL.replace(/\/$/, '');
+  return `${base}/${p.image.replace(/^\//, '')}`;
+}
+
+// ── 接続確認モード（投稿しない）: トークン・IG接続・画像URLをチェック ──
+if (verify) {
+  console.log('=== 接続確認モード（投稿は行いません）===\n');
+  let ok = true;
+
+  // 1) トークン & IGアカウント疎通
+  try {
+    const url = `${API}/${IG_USER_ID}?fields=id,username&access_token=${encodeURIComponent(IG_ACCESS_TOKEN)}`;
+    const res = await fetch(url);
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || json.error) throw new Error(`${res.status} ${JSON.stringify(json.error || json)}`);
+    console.log(`✓ トークン有効・IG接続OK  →  @${json.username} (id=${json.id})`);
+  } catch (e) {
+    ok = false;
+    console.error(`✗ トークン/IG接続に失敗: ${e.message}`);
+  }
+
+  // 2) 画像URLが公開でアクセス可能か（キューの先頭の画像で確認）
+  const sample = (queue.posts || [])[0];
+  if (sample) {
+    const imgUrl = imageUrlForEarly(sample);
+    try {
+      const res = await fetch(imgUrl);
+      const type = res.headers.get('content-type') || '';
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!type.startsWith('image/')) throw new Error(`画像ではありません (content-type=${type})`);
+      console.log(`✓ 画像URL 公開アクセスOK  →  ${imgUrl} (${type})`);
+    } catch (e) {
+      ok = false;
+      console.error(`✗ 画像URLにアクセスできません: ${imgUrl}\n   ${e.message}`);
+    }
+  } else {
+    console.log('（キューに投稿が無いため画像チェックはスキップ）');
+  }
+
+  console.log(`\n=== 結果: ${ok ? '✅ すべてOK（本番投稿できる状態です）' : '❌ 問題あり（上のエラーを確認）'} ===`);
+  process.exit(ok ? 0 : 1);
+}
 
 // 投稿対象: status === 'scheduled' かつ publish_at <= now
 const due = (queue.posts || [])

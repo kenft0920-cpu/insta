@@ -8,8 +8,12 @@ on:
     - cron: '5 * * * *'   # 毎時5分（UTC）。IST(+5:30)基準ではなくキューの時刻で判定
   workflow_dispatch:       # 手動でも実行可
     inputs:
+      verify:
+        description: '接続確認のみ（trueなら投稿せずトークン・画像URLを検証）'
+        required: false
+        default: 'false'
       dry_run:
-        description: 'DRY_RUN（trueなら投稿せず確認のみ）'
+        description: 'DRY_RUN（trueなら投稿せず対象を表示）'
         required: false
         default: 'false'
 
@@ -37,12 +41,13 @@ jobs:
           GRAPH_BASE: https://graph.facebook.com
           # 画像の公開URLベース（この実行のコミットを参照）。※リポジトリが公開である必要あり
           IMAGE_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}
+          VERIFY: ${{ github.event.inputs.verify == 'true' && '1' || '' }}
           DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
           MAX_POSTS: '2'
         run: node tools/post-to-instagram.mjs
 
       - name: Commit queue status updates
-        if: ${{ github.event.inputs.dry_run != 'true' }}
+        if: ${{ github.event.inputs.dry_run != 'true' && github.event.inputs.verify != 'true' }}
         run: |
           if ! git diff --quiet -- posts/queue.json; then
             git config user.name  "github-actions[bot]"
