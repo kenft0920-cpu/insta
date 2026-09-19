@@ -40,6 +40,13 @@ const contrast = Number(opt.contrast ?? 1.0);
 const saturate = Number(opt.saturate ?? 1.0);
 const gravity = opt.gravity || 'center';
 const quality = Number(opt.quality ?? 92) / 100;
+// 切り落とし（元画像に対する割合 0〜1）。例 --trimbottom=0.1 で下10%をカット（透かし除去などに）
+const trim = {
+  top: Number(opt.trimtop ?? 0),
+  bottom: Number(opt.trimbottom ?? 0),
+  left: Number(opt.trimleft ?? 0),
+  right: Number(opt.trimright ?? 0),
+};
 
 const buf = readFileSync(input);
 const ext = path.extname(input).slice(1).toLowerCase();
@@ -52,7 +59,7 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage();
   const resultB64 = await page.evaluate(
-    async ({ dataUrl, targetAR, brightness, contrast, saturate, gravity, quality }) => {
+    async ({ dataUrl, targetAR, brightness, contrast, saturate, gravity, quality, trim }) => {
       const img = new Image();
       await new Promise((res, rej) => {
         img.onload = res;
@@ -61,23 +68,29 @@ try {
       });
       const iw = img.naturalWidth;
       const ih = img.naturalHeight;
-      const srcAR = iw / ih;
 
-      // トリミング領域を算出（アスペクト比に合わせて中央/指定基準で切り抜く）
+      // まず切り落とし（透かし除去など）を適用した「有効領域」を求める
+      const ox = Math.round(iw * (trim.left || 0));
+      const oy = Math.round(ih * (trim.top || 0));
+      const rw = Math.round(iw * (1 - (trim.left || 0) - (trim.right || 0)));
+      const rh = Math.round(ih * (1 - (trim.top || 0) - (trim.bottom || 0)));
+      const srcAR = rw / rh;
+
+      // 有効領域内でアスペクト比に合わせて中央/指定基準で切り抜く
       let sw, sh;
       if (srcAR > targetAR) {
-        sh = ih;
-        sw = Math.round(ih * targetAR);
+        sh = rh;
+        sw = Math.round(rh * targetAR);
       } else {
-        sw = iw;
-        sh = Math.round(iw / targetAR);
+        sw = rw;
+        sh = Math.round(rw / targetAR);
       }
-      let sx = Math.round((iw - sw) / 2);
-      let sy = Math.round((ih - sh) / 2);
-      if (gravity === 'top') sy = 0;
-      if (gravity === 'bottom') sy = ih - sh;
-      if (gravity === 'left') sx = 0;
-      if (gravity === 'right') sx = iw - sw;
+      let sx = ox + Math.round((rw - sw) / 2);
+      let sy = oy + Math.round((rh - sh) / 2);
+      if (gravity === 'top') sy = oy;
+      if (gravity === 'bottom') sy = oy + rh - sh;
+      if (gravity === 'left') sx = ox;
+      if (gravity === 'right') sx = ox + rw - sw;
 
       // 出力解像度（長辺を最大1350pxに、インスタ推奨 1080x1350 相当）
       const maxLong = 1350;
@@ -102,7 +115,7 @@ try {
       const out = canvas.toDataURL('image/jpeg', quality);
       return { b64: out.split(',')[1], ow, oh };
     },
-    { dataUrl, targetAR, brightness, contrast, saturate, gravity, quality }
+    { dataUrl, targetAR, brightness, contrast, saturate, gravity, quality, trim }
   );
 
   writeFileSync(output, Buffer.from(resultB64.b64, 'base64'));
