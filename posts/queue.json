@@ -9,8 +9,8 @@
         "photos/edited/2026-09-19_ganesha_3_4x5.jpg"
       ],
       "caption_file": "posts/captions/2026-09-19_ganesha.txt",
-      "publish_at": "2099-01-01T12:00:00+05:30",
-      "status": "draft"
+      "publish_at": "2026-09-19T00:00:00+05:30",
+      "status": "scheduled"
     },
     {
       "id": "2026-09-17_temple",
