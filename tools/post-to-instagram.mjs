@@ -66,7 +66,7 @@ if (verify) {
   console.log('=== 接続確認モード（投稿は行いません）===\n');
   let ok = true;
 
-  // 1) トークン & IGアカウント疎通
+  // 1) 設定された IG_USER_ID でトークン & IGアカウント疎通
   try {
     const url = `${API}/${IG_USER_ID}?fields=id,username&access_token=${encodeURIComponent(IG_ACCESS_TOKEN)}`;
     const res = await fetch(url);
@@ -75,7 +75,26 @@ if (verify) {
     console.log(`✓ トークン有効・IG接続OK  →  @${json.username} (id=${json.id})`);
   } catch (e) {
     ok = false;
-    console.error(`✗ トークン/IG接続に失敗: ${e.message}`);
+    console.error(`✗ 設定された IG_USER_ID での接続に失敗: ${e.message}`);
+  }
+
+  // 1b) トークンから「正しいIG_USER_ID」を自動発見して照合（診断用）
+  try {
+    const url = `${API}/me/accounts?fields=name,instagram_business_account{id,username}&access_token=${encodeURIComponent(IG_ACCESS_TOKEN)}`;
+    const res = await fetch(url);
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || json.error) throw new Error(`${res.status} ${JSON.stringify(json.error || json)}`);
+    const igs = (json.data || []).map((p) => p.instagram_business_account).filter(Boolean);
+    if (igs.length === 0) {
+      console.log('  ⚠️ トークンから辿れるInstagramビジネスアカウントが見つかりません（連携/権限を確認）');
+    } else {
+      for (const ig of igs) {
+        const match = String(ig.id) === String(IG_USER_ID || '');
+        console.log(`  診断: 正しいIG_USER_ID = ${ig.id}（@${ig.username}） ／ 現在の設定値と一致: ${match ? '✅ はい' : '❌ いいえ（これを登録し直してください）'}`);
+      }
+    }
+  } catch (e) {
+    console.log(`  （自動発見の実行に失敗: ${e.message}）`);
   }
 
   // 2) 画像URLが公開でアクセス可能か（キューの先頭の画像で確認）
