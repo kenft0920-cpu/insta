@@ -145,6 +145,24 @@ async function graphPost(url, params) {
   return json;
 }
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// コンテナ（画像/カルーセル）の処理完了(FINISHED)を待ってから公開する
+async function waitForContainer(creationId, { tries = 15, delayMs = 4000 } = {}) {
+  for (let i = 0; i < tries; i++) {
+    const url = `${API}/${creationId}?fields=status_code,status&access_token=${encodeURIComponent(IG_ACCESS_TOKEN)}`;
+    const res = await fetch(url);
+    const json = await res.json().catch(() => ({}));
+    const code = json.status_code;
+    if (code === 'FINISHED') return;
+    if (code === 'ERROR' || code === 'EXPIRED') {
+      throw new Error(`コンテナ処理エラー status=${code} ${JSON.stringify(json.status || '')}`);
+    }
+    await sleep(delayMs); // IN_PROGRESS など → 待機して再確認
+  }
+  throw new Error('コンテナが時間内に公開可能になりませんでした（タイムアウト）');
+}
+
 function imageUrlFrom(imagePath) {
   const base = IMAGE_BASE_URL.replace(/\/$/, '');
   return `${base}/${imagePath.replace(/^\//, '')}`;
@@ -209,7 +227,8 @@ for (const p of due) {
       console.log(`  container: ${creationId}`);
     }
 
-    // 3) 公開
+    // 3) コンテナの処理完了を待ってから公開
+    await waitForContainer(creationId);
     const published = await graphPost(`${API}/${IG_USER_ID}/media_publish`, {
       creation_id: creationId,
       access_token: IG_ACCESS_TOKEN,

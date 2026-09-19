@@ -10,8 +10,7 @@
       ],
       "caption_file": "posts/captions/2026-09-19_ganesha.txt",
       "publish_at": "2026-09-19T00:00:00+05:30",
-      "status": "error",
-      "error": "Graph API エラー: 400 {\"message\":\"Media ID is not available\",\"type\":\"OAuthException\",\"code\":9007,\"error_subcode\":2207027,\"is_transient\":false,\"error_user_title\":\"公開できません\",\"error_user_msg\":\"このメディアは公開する準備ができていません。しばらくお待ちください。\",\"fbtrace_id\":\"Aw1taHGsicgIoZKPGXZsu_R\"}"
+      "status": "scheduled"
     },
     {
       "id": "2026-09-17_temple",
