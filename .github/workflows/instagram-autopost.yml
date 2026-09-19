@@ -5,7 +5,7 @@ name: Instagram Auto-post
 # （このワークフローは「時刻が来た scheduled 投稿」を拾って投稿するだけ）。
 on:
   schedule:
-    - cron: '5 * * * *'   # 毎時5分（UTC）。IST(+5:30)基準ではなくキューの時刻で判定
+    - cron: '0,30 * * * *'   # 30分ごと（UTC）。実際の投稿タイミングはキューの publish_at で判定
   workflow_dispatch:       # 手動でも実行可
     inputs:
       verify:
