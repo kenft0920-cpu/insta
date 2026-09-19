@@ -62,7 +62,8 @@ const now = Date.now();
 
 function imageUrlForEarly(p) {
   const base = IMAGE_BASE_URL.replace(/\/$/, '');
-  return `${base}/${p.image.replace(/^\//, '')}`;
+  const first = (Array.isArray(p.images) && p.images.length) ? p.images[0] : p.image;
+  return `${base}/${String(first).replace(/^\//, '')}`;
 }
 
 // ── 接続確認モード（投稿しない）: トークン・IG接続・画像URLをチェック ──
@@ -144,9 +145,16 @@ async function graphPost(url, params) {
   return json;
 }
 
-function imageUrlFor(p) {
+function imageUrlFrom(imagePath) {
   const base = IMAGE_BASE_URL.replace(/\/$/, '');
-  return `${base}/${p.image.replace(/^\//, '')}`;
+  return `${base}/${imagePath.replace(/^\//, '')}`;
+}
+
+// 投稿の画像パス配列（複数=カルーセル、単数=通常投稿）を取得
+function imagePathsOf(p) {
+  if (Array.isArray(p.images) && p.images.length) return p.images;
+  if (p.image) return [p.image];
+  return [];
 }
 
 let posted = 0;
@@ -154,10 +162,12 @@ for (const p of due) {
   const caption = p.caption_file
     ? readFileSync(path.resolve(p.caption_file), 'utf8').trim()
     : (p.caption || '');
-  const image_url = imageUrlFor(p);
+  const imagePaths = imagePathsOf(p);
+  const isCarousel = imagePaths.length > 1;
 
   console.log(`\n── ${p.id} ──`);
-  console.log(`  image_url: ${image_url}`);
+  console.log(`  ${isCarousel ? `カルーセル(${imagePaths.length}枚)` : '単一画像'}`);
+  imagePaths.forEach((ip) => console.log(`   - ${imageUrlFrom(ip)}`));
   console.log(`  caption : ${caption.split('\n')[0]} …(${caption.length}文字)`);
 
   if (dryRun) {
@@ -166,17 +176,42 @@ for (const p of due) {
   }
 
   try {
-    // 1) メディアコンテナ作成
-    const container = await graphPost(`${API}/${IG_USER_ID}/media`, {
-      image_url,
-      caption,
-      access_token: IG_ACCESS_TOKEN,
-    });
-    console.log(`  container: ${container.id}`);
+    let creationId;
+    if (isCarousel) {
+      // 1) 各画像の子コンテナを作成（is_carousel_item=true）
+      const childIds = [];
+      for (const ip of imagePaths) {
+        const child = await graphPost(`${API}/${IG_USER_ID}/media`, {
+          image_url: imageUrlFrom(ip),
+          is_carousel_item: 'true',
+          access_token: IG_ACCESS_TOKEN,
+        });
+        childIds.push(child.id);
+        console.log(`  child: ${child.id}`);
+      }
+      // 2) カルーセル本体コンテナを作成
+      const carousel = await graphPost(`${API}/${IG_USER_ID}/media`, {
+        media_type: 'CAROUSEL',
+        children: childIds.join(','),
+        caption,
+        access_token: IG_ACCESS_TOKEN,
+      });
+      creationId = carousel.id;
+      console.log(`  carousel container: ${creationId}`);
+    } else {
+      // 単一画像コンテナ
+      const container = await graphPost(`${API}/${IG_USER_ID}/media`, {
+        image_url: imageUrlFrom(imagePaths[0]),
+        caption,
+        access_token: IG_ACCESS_TOKEN,
+      });
+      creationId = container.id;
+      console.log(`  container: ${creationId}`);
+    }
 
-    // 2) 公開
+    // 3) 公開
     const published = await graphPost(`${API}/${IG_USER_ID}/media_publish`, {
-      creation_id: container.id,
+      creation_id: creationId,
       access_token: IG_ACCESS_TOKEN,
     });
     console.log(`  ✓ 投稿完了 media_id=${published.id}`);
