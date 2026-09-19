@@ -23,8 +23,8 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const {
-  IG_USER_ID,
-  IG_ACCESS_TOKEN,
+  IG_USER_ID: IG_USER_ID_RAW,
+  IG_ACCESS_TOKEN: IG_ACCESS_TOKEN_RAW,
   IMAGE_BASE_URL,
   DRY_RUN,
   MAX_POSTS = '1',
@@ -35,6 +35,10 @@ const {
   //  - Instagramログイン方式: https://graph.instagram.com
   GRAPH_BASE = 'https://graph.facebook.com',
 } = process.env;
+
+// Secretに紛れ込みがちな前後の空白・改行を除去（本番投稿の失敗防止）
+const IG_USER_ID = (IG_USER_ID_RAW || '').trim();
+const IG_ACCESS_TOKEN = (IG_ACCESS_TOKEN_RAW || '').trim();
 
 const dryRun = DRY_RUN === '1' || DRY_RUN === 'true';
 const verify = process.env.VERIFY === '1' || process.env.VERIFY === 'true';
