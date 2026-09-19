@@ -10,7 +10,9 @@
       ],
       "caption_file": "posts/captions/2026-09-19_ganesha.txt",
       "publish_at": "2026-09-19T00:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-09-19T07:16:30.084Z",
+      "media_id": "17995094177831155"
     },
     {
       "id": "2026-09-17_temple",
