@@ -44,5 +44,6 @@
 
 # 添付する写真（この順番で）
 1. photos/edited/2026-09-21_lucknow_kebab_4x5.jpg （ケバブとパラタ）
-2. photos/edited/2026-09-21_lucknow_shop_4x5.jpg （店構え・大鍋）
-3. photos/edited/2026-09-21_lucknow_menu_4x5.jpg （メニュー）
+2. photos/edited/2026-09-21_lucknow_people_4x5.jpg （お店の方々と）
+3. photos/edited/2026-09-21_lucknow_shop_4x5.jpg （店構え・大鍋）
+4. photos/edited/2026-09-21_lucknow_menu_4x5.jpg （メニュー）

@@ -43,6 +43,18 @@
       "status": "scheduled"
     },
     {
+      "id": "2026-09-28_lucknow_kebab",
+      "images": [
+        "photos/edited/2026-09-21_lucknow_kebab_4x5.jpg",
+        "photos/edited/2026-09-21_lucknow_people_4x5.jpg",
+        "photos/edited/2026-09-21_lucknow_shop_4x5.jpg",
+        "photos/edited/2026-09-21_lucknow_menu_4x5.jpg"
+      ],
+      "caption_file": "posts/captions/2026-09-21_lucknow_kebab.txt",
+      "publish_at": "2026-09-28T09:00:00+05:30",
+      "status": "scheduled"
+    },
+    {
       "id": "2026-09-17_temple",
       "image": "photos/edited/2026-09-17_temple_4x5.jpg",
       "caption_file": "posts/captions/2026-09-17_temple.txt",
