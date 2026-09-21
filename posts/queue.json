@@ -55,6 +55,18 @@
       "status": "scheduled"
     },
     {
+      "id": "2026-09-30_lucknow_biryani",
+      "images": [
+        "photos/edited/2026-09-21_lucknow_biryani_1_4x5.jpg",
+        "photos/edited/2026-09-21_lucknow_biryani_2_4x5.jpg",
+        "photos/edited/2026-09-21_lucknow_biryani_3_4x5.jpg",
+        "photos/edited/2026-09-21_lucknow_biryani_4_4x5.jpg"
+      ],
+      "caption_file": "posts/captions/2026-09-21_lucknow_biryani.txt",
+      "publish_at": "2026-09-30T09:00:00+05:30",
+      "status": "scheduled"
+    },
+    {
       "id": "2026-09-17_temple",
       "image": "photos/edited/2026-09-17_temple_4x5.jpg",
       "caption_file": "posts/captions/2026-09-17_temple.txt",
