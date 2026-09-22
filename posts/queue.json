@@ -22,7 +22,9 @@
       ],
       "caption_file": "posts/captions/2026-09-19_mysore_chamundi.txt",
       "publish_at": "2026-09-22T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-09-22T07:05:58.804Z",
+      "media_id": "17898047313391622"
     },
     {
       "id": "2026-09-24_mysore_food",
