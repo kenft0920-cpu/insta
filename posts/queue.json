@@ -35,7 +35,9 @@
       ],
       "caption_file": "posts/captions/2026-09-19_mysore_food.txt",
       "publish_at": "2026-09-24T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-09-24T06:59:23.956Z",
+      "media_id": "18104696735252698"
     },
     {
       "id": "2026-09-26_mysore_cathedral",
