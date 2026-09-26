@@ -44,7 +44,9 @@
       "image": "photos/edited/2026-09-19_mysore_5_4x5.jpg",
       "caption_file": "posts/captions/2026-09-19_mysore_cathedral.txt",
       "publish_at": "2026-09-26T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-09-26T05:14:16.247Z",
+      "media_id": "18115073977879430"
     },
     {
       "id": "2026-09-28_lucknow_kebab",
