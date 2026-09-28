@@ -58,7 +58,9 @@
       ],
       "caption_file": "posts/captions/2026-09-21_lucknow_kebab.txt",
       "publish_at": "2026-09-28T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-09-28T05:39:35.663Z",
+      "media_id": "17888270196682687"
     },
     {
       "id": "2026-09-30_lucknow_biryani",
