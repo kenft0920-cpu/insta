@@ -72,7 +72,9 @@
       ],
       "caption_file": "posts/captions/2026-09-21_lucknow_biryani.txt",
       "publish_at": "2026-09-30T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-09-30T06:12:39.665Z",
+      "media_id": "18118258787062332"
     },
     {
       "id": "2026-09-17_temple",
