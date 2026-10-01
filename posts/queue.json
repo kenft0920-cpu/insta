@@ -98,6 +98,17 @@
       "status": "scheduled"
     },
     {
+      "id": "2026-10-06_carpet",
+      "images": [
+        "photos/edited/2026-10-01_carpet_1_4x5.jpg",
+        "photos/edited/2026-10-01_carpet_2_4x5.jpg",
+        "photos/edited/2026-10-01_carpet_3_4x5.jpg"
+      ],
+      "caption_file": "posts/captions/2026-10-01_carpet.txt",
+      "publish_at": "2026-10-06T09:00:00+05:30",
+      "status": "scheduled"
+    },
+    {
       "id": "2026-09-17_temple",
       "image": "photos/edited/2026-09-17_temple_4x5.jpg",
       "caption_file": "posts/captions/2026-09-17_temple.txt",
