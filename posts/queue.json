@@ -109,6 +109,17 @@
       "status": "scheduled"
     },
     {
+      "id": "2026-10-08_pizza",
+      "images": [
+        "photos/edited/2026-10-02_pizza_1_4x5.jpg",
+        "photos/edited/2026-10-02_pizza_2_4x5.jpg",
+        "photos/edited/2026-10-02_pizza_3_4x5.jpg"
+      ],
+      "caption_file": "posts/captions/2026-10-02_pizza.txt",
+      "publish_at": "2026-10-08T09:00:00+05:30",
+      "status": "scheduled"
+    },
+    {
       "id": "2026-09-17_temple",
       "image": "photos/edited/2026-09-17_temple_4x5.jpg",
       "caption_file": "posts/captions/2026-09-17_temple.txt",
