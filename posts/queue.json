@@ -2,6 +2,21 @@
   "_comment": "投稿キュー。status が 'scheduled' で publish_at が現在時刻を過ぎたものを自動投稿します。投稿後に status は 'posted' に更新されます。時刻はISO8601（+05:30 = インド標準時 IST）。images(配列)=カルーセル、image(単数)=通常投稿。",
   "posts": [
     {
+      "id": "2026-10-01_roundup_gourmet5",
+      "images": [
+        "branding/roundup/out/00_cover.png",
+        "branding/roundup/out/01_item.png",
+        "branding/roundup/out/02_item.png",
+        "branding/roundup/out/03_item.png",
+        "branding/roundup/out/04_item.png",
+        "branding/roundup/out/05_item.png",
+        "branding/roundup/out/06_cta.png"
+      ],
+      "caption_file": "posts/captions/roundup_gourmet5.txt",
+      "publish_at": "2026-10-01T00:00:00+05:30",
+      "status": "scheduled"
+    },
+    {
       "id": "2026-09-20_mysore_palace",
       "images": [
         "photos/edited/2026-09-19_mysore_1_4x5.jpg",
