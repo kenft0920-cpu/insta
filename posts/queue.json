@@ -14,7 +14,9 @@
       ],
       "caption_file": "posts/captions/roundup_gourmet5.txt",
       "publish_at": "2026-10-01T00:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-10-01T08:41:20.674Z",
+      "media_id": "18073056053729777"
     },
     {
       "id": "2026-09-20_mysore_palace",
