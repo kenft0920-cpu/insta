@@ -101,7 +101,9 @@
       ],
       "caption_file": "posts/captions/2026-09-30_mango.txt",
       "publish_at": "2026-10-02T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-10-02T09:57:50.749Z",
+      "media_id": "17883228345687699"
     },
     {
       "id": "2026-10-04_delhi",
