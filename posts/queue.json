@@ -114,7 +114,9 @@
       ],
       "caption_file": "posts/captions/2026-10-01_delhi.txt",
       "publish_at": "2026-10-05T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-10-05T09:20:50.558Z",
+      "media_id": "18131296462687062"
     },
     {
       "id": "2026-10-06_carpet",
