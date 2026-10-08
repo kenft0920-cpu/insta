@@ -127,7 +127,9 @@
       ],
       "caption_file": "posts/captions/2026-10-01_carpet.txt",
       "publish_at": "2026-10-08T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-10-08T09:14:52.802Z",
+      "media_id": "18072579221488899"
     },
     {
       "id": "2026-10-08_pizza",
