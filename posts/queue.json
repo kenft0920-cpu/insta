@@ -140,7 +140,9 @@
       ],
       "caption_file": "posts/captions/2026-10-02_pizza.txt",
       "publish_at": "2026-10-11T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-10-11T06:05:26.158Z",
+      "media_id": "17890223817618072"
     },
     {
       "id": "2026-10-14_butterchicken",
