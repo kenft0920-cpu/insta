@@ -154,7 +154,9 @@
       ],
       "caption_file": "posts/captions/2026-10-03_butterchicken.txt",
       "publish_at": "2026-10-14T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-10-14T07:51:34.690Z",
+      "media_id": "18010485290963298"
     },
     {
       "id": "2026-09-17_temple",
