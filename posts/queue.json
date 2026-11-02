@@ -172,6 +172,17 @@
       "media_id": "18098721395419373"
     },
     {
+      "id": "2026-11-04_4ps",
+      "images": [
+        "photos/edited/2026-10-25_4ps_1_pizza_4x5.jpg",
+        "photos/edited/2026-10-25_4ps_2_salad_4x5.jpg",
+        "photos/edited/2026-10-25_4ps_3_kitchen_4x5.jpg"
+      ],
+      "caption_file": "posts/captions/2026-11-04_4ps.txt",
+      "publish_at": "2026-11-04T09:00:00+05:30",
+      "status": "scheduled"
+    },
+    {
       "id": "2026-09-17_temple",
       "image": "photos/edited/2026-09-17_temple_4x5.jpg",
       "caption_file": "posts/captions/2026-09-17_temple.txt",
