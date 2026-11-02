@@ -1,0 +1,23 @@
+{
+  "sceneSec": 2.6,
+  "xfadeSec": 0.5,
+  "tmpDir": "/tmp/reel_build_ladakh",
+  "scenes": [
+    { "image": "photos/original/2026-11-10_ladakh_1_pangong.jpg", "center": true,
+      "title": "学生時代に観た、\nあの映画の湖へ。", "sub": "— 10年越しの夢 🎬" },
+    { "image": "photos/original/2026-11-10_ladakh_6_changla.jpg",
+      "tag": "標高 5,360m", "title": "息が切れる、\n峠を越えて。" },
+    { "image": "photos/original/2026-11-10_ladakh_3_diskit_buddha.jpg",
+      "tag": "ヌブラ谷", "title": "天空に坐す、\n大弥勒菩薩。" },
+    { "image": "photos/original/2026-11-10_ladakh_4_diskit_monastery.jpg",
+      "tag": "祈りの地", "title": "崖に建つ、僧院。" },
+    { "image": "photos/original/2026-11-10_ladakh_5_camel.jpg",
+      "tag": "シルクロード", "title": "砂漠の\nフタコブラクダ。" },
+    { "image": "photos/original/2026-11-10_ladakh_2_pangong_sign.jpg",
+      "title": "そして、\nあの青い湖へ。" },
+    { "image": "photos/original/2026-11-10_ladakh_9_leh.jpg",
+      "tag": "I ♥ LEH", "title": "旅の起点、\nレーの街。" },
+    { "image": "photos/original/2026-11-10_ladakh_1_pangong.jpg", "center": true,
+      "title": "夢は、叶う。", "sub": "All izz well ✨\nきっと、うまくいく", "handle": true }
+  ]
+}
