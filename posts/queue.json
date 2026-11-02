@@ -183,6 +183,17 @@
       "status": "scheduled"
     },
     {
+      "id": "2026-11-07_onlyplace",
+      "images": [
+        "photos/edited/2026-10-28_onlyplace_1_steak_4x5.jpg",
+        "photos/edited/2026-10-28_onlyplace_2_cheese_4x5.jpg",
+        "photos/edited/2026-10-28_onlyplace_3_pepper_4x5.jpg"
+      ],
+      "caption_file": "posts/captions/2026-11-07_onlyplace.txt",
+      "publish_at": "2026-11-07T09:00:00+05:30",
+      "status": "scheduled"
+    },
+    {
       "id": "2026-09-17_temple",
       "image": "photos/edited/2026-09-17_temple_4x5.jpg",
       "caption_file": "posts/captions/2026-09-17_temple.txt",
