@@ -180,7 +180,9 @@
       ],
       "caption_file": "posts/captions/2026-11-04_4ps.txt",
       "publish_at": "2026-11-04T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-11-04T10:13:13.707Z",
+      "media_id": "18148868689603919"
     },
     {
       "id": "2026-11-07_onlyplace",
