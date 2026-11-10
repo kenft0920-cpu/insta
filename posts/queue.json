@@ -213,7 +213,9 @@
       ],
       "caption_file": "posts/captions/2026-11-10_ladakh.txt",
       "publish_at": "2026-11-10T09:00:00+05:30",
-      "status": "scheduled"
+      "status": "posted",
+      "posted_at": "2026-11-10T04:26:51.274Z",
+      "media_id": "18102747242362684"
     },
     {
       "id": "2026-09-17_temple",
